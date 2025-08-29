@@ -1,0 +1,23 @@
+{
+  "name": "course_data_lab",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "t:add": "tsx ./utils/new_task.ts",
+    "t:test": "tsx ./utils/test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.12",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.3",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "tsx": "^4.20.3"
+  }
+}

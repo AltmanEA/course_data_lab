@@ -1,0 +1,19 @@
+{
+  "blocks": [
+    {
+      "name": "collection",
+      "task": 30
+    }
+  ],
+  "tests": [
+    {
+      "time": 1800,
+      "blocks": [
+        {
+          "block": "collection",
+          "task": 5
+        }
+      ]
+    }
+  ]
+}
