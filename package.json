@@ -13,11 +13,17 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.12",
+    "@types/sax": "^1.2.7",
     "typescript": "~5.8.3",
     "vite": "^7.0.3",
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "tsx": "^4.20.3"
+    "@xmldom/xmldom": "^0.8.11",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.2.2",
+    "sax": "^1.4.1",
+    "tsx": "^4.20.3",
+    "xpath": "^0.0.34"
   }
 }

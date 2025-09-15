@@ -3,6 +3,10 @@
     {
       "name": "collection",
       "task": 30
+    },
+    {
+      "name": "serial",
+      "task": 30
     }
   ],
   "tests": [
@@ -12,6 +16,19 @@
         {
           "block": "collection",
           "task": 5
+        }
+      ]
+    },
+    {
+      "time": 1800,
+      "blocks": [
+        {
+          "block": "collection",
+          "task": 2
+        },
+        {
+          "block": "serial",
+          "task": 3
         }
       ]
     }

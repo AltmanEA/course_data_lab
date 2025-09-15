@@ -1,8 +1,10 @@
-import fs from "node:fs";type Block = {
+import fs from "node:fs";
+
+export type Block = {
   name: string;
   task: number;
 };
-type Tests = {
+export type Tests = {
   time: number;
   blocks: {
     block: string;
@@ -30,8 +32,9 @@ export class Config {
     fs.writeFileSync(config_file, JSON.stringify(this, null, 2));
   }
 
-  getBlock(name: string) {
-    return this.blocks.find((block) => block.name === name);
+  getBlock(name: string) {  
+    const names = name.split(" ");  
+    return this.blocks.filter((block) => names.includes(block.name));
   }
 }
 

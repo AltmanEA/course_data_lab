@@ -1,27 +1,23 @@
-import fs from "node:fs";import { exec, spawn, spawnSync } from "node:child_process";
-import { Config } from "./config";
+import fs from "node:fs";
+import { exec, spawn, spawnSync } from "node:child_process";
+import { Config, type Block } from "./config";
 const config = Config.Instance;
 const test_num = Number(process.argv[2] ?? 1);
 
 const test = config.tests[test_num - 1];
 
 console.log("--- Генерирую список задач ---");
-let block_tasks: Array<[string, string]> = [];
-let tasks: string[] = [];
+const tasks: string[] = [];
 for (const test_block of test.blocks) {
   const block_config = config.getBlock(test_block.block);
-  if (block_config) {
-    for (let i = 1; i <= test_block.task; i++) {
-      const task_num = Math.floor(Math.random() * block_config.task) + 1;
-      const task_suffix = task_num.toString().padStart(2, "0");
-      const task = `${block_config.name}${task_suffix}`;
-      if (tasks.includes(task)) {
-        i--;
-      } else {
-        block_tasks.push([block_config.name, task]);
-        tasks.push(task);
-      }
-    }
+  const all_tasks = block_config.flatMap((block: Block) => {
+    const t = Array.from({ length: block.task }, (_, i) => (i+1).toString().padStart(2, "0"));
+    return t.map(n => block.name + n);
+  })
+  for (let i = 1; i <= test_block.task; i++) {
+    const task_index = Math.floor(Math.random() * all_tasks.length) + 1;
+    tasks.push(all_tasks[task_index - 1]);
+    all_tasks.splice(task_index - 1, 1);
   }
 }
 
@@ -35,9 +31,10 @@ const config_file = "./utils/test_config.json";
 fs.writeFileSync(config_file, config_json);
 
 console.log("--- Открываю задачи в редакторе ---");
-for (const task of block_tasks) {
-  const ext = task[0] === "basic" ? "js" : "ts";
-  const cmd_open = `code ./src/${task[0]}/${task[1]}.${ext}`;
+for (const task of tasks) {
+  const block = task.slice(0, -2);
+  const ext = block === "basic" ? "js" : "ts";
+  const cmd_open = `code ./src/${block}/${task}.${ext}`;
   exec(cmd_open);
 }
 
@@ -49,7 +46,7 @@ spawn("cmd.exe", ["/c", "node", "./utils/count.js"], {
 
 console.log("--- Запускаю тесты ---");
 const test_task = tasks.join(" ");
-const cmd = "pnpm test " + test_task;
+const cmd = "npm run test " + test_task;
 spawnSync(cmd, { shell: true, stdio: "inherit" });
 
 
