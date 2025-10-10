@@ -7,6 +7,10 @@
     {
       "name": "serial",
       "task": 30
+    },
+    {
+      "name": "mongo",
+      "task": 30
     }
   ],
   "tests": [
@@ -28,6 +32,23 @@
         },
         {
           "block": "serial",
+          "task": 3
+        }
+      ]
+    },
+    {
+      "time": 1800,
+      "blocks": [
+        {
+          "block": "collection",
+          "task": 1
+        },
+        {
+          "block": "serial",
+          "task": 1
+        },
+        {
+          "block": "mongo",
           "task": 3
         }
       ]
