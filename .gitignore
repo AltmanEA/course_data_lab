@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 utils/test_config.json
+
+/src/generated/prisma
