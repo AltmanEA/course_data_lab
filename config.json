@@ -11,6 +11,10 @@
     {
       "name": "mongo",
       "task": 30
+    },
+    {
+      "name": "prisma",
+      "task": 30
     }
   ],
   "tests": [

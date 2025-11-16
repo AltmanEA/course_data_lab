@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 package-lock.json
+pnpm-lock.yaml
 utils/test_config.json
 
 /src/generated/prisma
