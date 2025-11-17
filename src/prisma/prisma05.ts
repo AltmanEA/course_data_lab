@@ -5,16 +5,7 @@ export async function find_courses_by_title_paginated(
     skip: number, 
     take: number
 ) {
-    return await prisma.course.findMany({
-        where: {
-            title: {
-                contains: titlePattern
-            }
-        },
-        skip: skip,
-        take: take,
-        orderBy: {
-            createdAt: 'desc'
-        }
-    })
+    // TODO: Найти курсы, в названии которых содержится указанная подстрока
+    // Применить пагинацию (skip, take) и отсортировать по дате создания (новые первыми)
+    // Вернуть массив курсов
 }
