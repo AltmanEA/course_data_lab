@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "se": "cross-env PRISMA_ENGINES_MIRROR='https://binaries.prismacdn.com' PRISMA_BINARIES_MIRROR='https: //npmmirror.com/mirrors/prisma' PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",

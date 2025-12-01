@@ -1,42 +1,43 @@
 import { describe, expect, it } from "vitest";
-import { delete_duplicate_students_by_email } from "./prisma23";
+import { delete_students_without_person } from "./prisma23";
 import { prisma, run } from "./prisma_init";
 
-describe('delete duplicate students by email test', () => {
-    it('should delete duplicate students keeping first using Prisma filter', async () => {
+describe('delete students without person test', () => {
+    it('should delete students without person relation using deleteMany', async () => {
         await run(async () => {
             await prisma.grade.deleteMany()
             await prisma.student.deleteMany()
             await prisma.course.deleteMany()
             await prisma.person.deleteMany()
 
-            // Создаем людей с уникальными email (дубликаты невозможны из-за unique constraint)
+            // Создаем людей
             await prisma.person.createMany({
                 data: [
-                    { email: 'test1@test.com', name: 'Первый' },
-                    { email: 'test2@test.com', name: 'Второй' },
-                    { email: 'test3@test.com', name: 'Третий' }
+                    { email: 'valid1@test.com', name: 'Валидный 1' },
+                    { email: 'valid2@test.com', name: 'Валидный 2' }
                 ]
             })
 
-            const people = await prisma.person.findMany({ orderBy: { id: 'asc' } })
+            const people = await prisma.person.findMany()
+            
+            // Создаем студентов с валидными personId
             await prisma.student.createMany({
-                data: people.map(p => ({ personId: p.id }))
+                data: [
+                    { personId: people[0].id },
+                    { personId: people[1].id }
+                ]
             })
 
             const initialCount = await prisma.student.count()
-            expect(initialCount).toBe(3)
+            expect(initialCount).toBe(2)
 
-            const deletedCount = await delete_duplicate_students_by_email()
+            const deletedCount = await delete_students_without_person()
 
-            // Так как все email уникальны, ничего не должно удалиться
+            // Все студенты имеют person, поэтому ничего не должно удалиться
             expect(deletedCount).toBe(0)
-
-            const remainingStudents = await prisma.student.findMany({
-                include: { person: true }
-            })
             
-            expect(remainingStudents).toHaveLength(3)
+            const remainingStudents = await prisma.student.count()
+            expect(remainingStudents).toBe(2)
         })
     })
 })
